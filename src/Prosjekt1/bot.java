@@ -19,10 +19,10 @@ public class bot {
     public static String id;
 
 
-    public bot(String hostname, int port, String id) {
+    public bot(String hostname, int port) {
         this.hostname = hostname;
         this.port = port;
-        bot.id=id;
+
     }
 
 
@@ -163,7 +163,7 @@ public class bot {
         bot.id = "bot";
 
         //if conditions are met, start client and connect to server with exe
-        bot bot = new bot(hostname,port, id);
+        bot bot = new bot(hostname,port);
         bot.exe();
 
     }
