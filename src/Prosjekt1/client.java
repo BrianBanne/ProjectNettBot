@@ -8,20 +8,16 @@ public class client {
     private String hostname;
     private int port;
     private String userName;
-    public static int id = 1;
+    private int isbot;
+
+
     //constructor
-    public client(String hostname, int port) {
+    public client(String hostname, int port, int isbot) {
         this.hostname = hostname;
         this.port = port;
+        this.isbot = isbot;
     }
 
-/*
-    private DataOutputStream output = null;
-    private Socket s =null;
-    private BufferedReader buffreader = null;
-    private BufferedReader keyboardreader = null;
-
- */
     //goes of whenever a new client starts to connect.
     public void exe() {
         try {
@@ -36,12 +32,11 @@ public class client {
             new WriteThread(socket, this, null).start();
 
             //catches not finding host and any I/O errors.
-        }catch (UnknownHostException i) {
+        } catch (UnknownHostException i) {
                 System.out.println("Server not found: " + i.getMessage());
         }catch (IOException e) {
             System.out.println("Error." +e.getMessage());
         }
-
     }
     //setter and getter for username hashset
     void setusername(String userName) {
@@ -58,11 +53,11 @@ public static void main (String [] args) throws IOException {
     if (args.length < 2) return;
     String hostname = args[0];
     int port = Integer.parseInt(args[1]);
-
+    int isbot = 0;
 
     //if conditions are met, start client and connect to server with exe
-        client client = new client(hostname,port);
-       client.exe();
+    client client = new client(hostname,port, isbot);
+    client.exe();
 
 }
 }

@@ -37,8 +37,6 @@ public class WriteThread extends Thread{
             String userName = console.readLine("\nEnter your name: ");
             client.setusername(userName);
             writer.println(userName);
-
-
             //string to store messages
             String line;
             // a loop until the user writes bye
@@ -60,9 +58,10 @@ public class WriteThread extends Thread{
             //for the bots
         } else {
             Console console = System.console();
-            String botName = bot.botname();
-            bot.setbotname(botName);
-            writer.println(botName);
+            //String botName = console.readLine("\nEnter the name of your bot: ");
+            String botName =bot.getBotNamee();
+            //bot.setbotname(botName);
+            //writer.println(botName);
 
             String line;
             // a loop until the user writes bye

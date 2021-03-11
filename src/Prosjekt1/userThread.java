@@ -8,11 +8,13 @@ public class userThread extends Thread{
     private server server;
     private PrintWriter writer;
     public String clientMessage = null;
+    private int isbot;
 
 
-    public userThread(Socket socket, server server) {
+    public userThread(Socket socket, server server, int isbot) {
         this.socket = socket;
         this.server = server;
+        this.isbot = isbot;
     }
 
     public String getClientMessage() {
@@ -20,55 +22,58 @@ public class userThread extends Thread{
     }
 
     public void run() {
-        try {
-            //inputstream to read from the stream
-            InputStream input = socket.getInputStream();
-            //buffreader for reading from client
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        if (isbot == 1) {
+            try {
+                //inputstream to read from the stream
+                InputStream input = socket.getInputStream();
+                //buffreader for reading from client
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-            OutputStream output = socket.getOutputStream();
-            //writes output and autoflushes
-            writer = new PrintWriter(output, true);
+                OutputStream output = socket.getOutputStream();
+                //writes output and autoflushes
+                writer = new PrintWriter(output, true);
 
-            //prints all connected users and bots
-            printUsers();
-            //reads username from the buffreader
-            String userName = reader.readLine();
-            //adds user to server
-            server.addusername(userName);
+                //prints all connected users and bots
+                printUsers();
+                //reads username from the buffreader
+                String userName = reader.readLine();
+                //adds user to server
+                server.addusername(userName);
 
-            //broadcasts that a new user has connected to all users.
-            String serverMessage = "New user connected: " + userName;
-            server.cast(serverMessage, this);
+                //broadcasts that a new user has connected to all users.
+                String serverMessage = "New user connected: " + userName;
+                server.cast(serverMessage, this);
 
-            //message client sends to server
-            clientMessage= "";
-            //do this while message from client does not equal "bye"
-            do {
-                //reads line and puts it on clientmessage
-                //servermessage is what the servers sends to all users except the one who sent it
-                clientMessage = reader.readLine();
-                if (clientMessage.equals("hi") || clientMessage.equals("hello") || clientMessage.equals("hey")){
-                    serverMessage = "["+bot.botname()+"]"+clientMessage+"!";
-                    //this way not work
-                    server.cast(serverMessage,this);
-                } else {
-                    //send message
-                    serverMessage = "[" + userName + "]: " + clientMessage;
-                    server.cast(serverMessage, this);
-                }
-            //if message is bye then close connection and kick user
-            } while (!clientMessage.equals("bye"));
-            //calls removeuser and removes that client
-            server.removeuser(userName, this, null, null);
-            socket.close();
-            //casts message to all users
-            serverMessage = userName + " has left the channel.";
-            server.cast(serverMessage, this);
+                //message client sends to server
+                clientMessage = "";
+                //do this while message from client does not equal "bye"
+                do {
+                    //reads line and puts it on clientmessage
+                    //servermessage is what the servers sends to all users except the one who sent it
+                    clientMessage = reader.readLine();
+                    if (clientMessage.equals("hi") || clientMessage.equals("hello") || clientMessage.equals("hey")) {
+                        serverMessage = "[" + bot.botname() + "]" + clientMessage + "!";
+                        //this way not work
+                        server.cast(serverMessage, this);
+                    } else {
+                        //send message
+                        serverMessage = "[" + userName + "]: " + clientMessage;
+                        server.cast(serverMessage, this);
+                    }
+                    //if message is bye then close connection and kick user
+                } while (!clientMessage.equals("bye"));
+                //calls removeuser and removes that client
+                server.removeuser(userName, this, null, null);
+                socket.close();
+                //casts message to all users
+                serverMessage = userName + " has left the channel.";
+                server.cast(serverMessage, this);
 
-        } catch (IOException e) {
-            System.out.println("Error in UserThread: " + e.getMessage());
-            e.printStackTrace();
+
+            } catch (IOException e) {
+                System.out.println("Error in UserThread: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

@@ -31,7 +31,7 @@ public class botThread extends Thread{
             writer = new PrintWriter(output, true);
 
             //reads username from the buffreader
-            // doesnt work, but im leaving it in.
+            // writer prints out name, and thread reads and adds
             String botName = reader.readLine();
             //adds user to server
             server.addbotname(botName);
@@ -49,6 +49,7 @@ public class botThread extends Thread{
                 botClientMessage = reader.readLine();
                 serverMessage = "[" + botName + "]: " + botClientMessage;
                 server.botcast(serverMessage, this);
+
 
                 //if message is bye then close connection and kick user
             }
@@ -69,5 +70,4 @@ public class botThread extends Thread{
     void sendMessage(String message) {
         writer.println(message);
     }
-
 }

@@ -2,30 +2,30 @@ package Prosjekt1;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Random;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 //will make bot its own client
 public class bot {
 
-    private static boolean botID = true;
     private String hostname;
     private int port;
     private String botName;
-    public static String id;
+    private String name;
+    private int isbot;
 
-
-    public bot(String hostname, int port) {
+    public bot(String hostname, int port, String name, int isbot) {
         this.hostname = hostname;
         this.port = port;
-
+        this.name = name;
+        this.isbot = isbot;
     }
-
-
 
     static int random(int arrlengde) {
         int random;
@@ -62,10 +62,17 @@ public class bot {
     }
     // a bunch of methods for getting name and sentence structures.
      public static String botname() {
-         String [] botnavn = {"Bjarne", "Knut", "Lisa", "Jensine", "Stuart", "Anna", "Urbanbot"};
+        ArrayList<String> list = new ArrayList<String>();
+        String[] botnavn = {"Bjarne", "Urbanbot", "Knut", "Lisa", "Jensine", "Stuart", "Anna"};
+        for (int i = 0; i < botnavn.length; i++) {
+            list.add(botnavn[i]);
+        }
+         Collections.shuffle(list);
          int navn = random(botnavn.length);
-        return botnavn[navn];
+         String temp = botnavn[navn];
+         return temp;
     }
+
     public static boolean findbotname(String string) {
         String [] botnavn = {"Bjarne", "Knut", "Lisa", "Jensine", "Stuart", "Anna", "Urbanbot"};
        for (int i = 0; i < botnavn.length; i++) {
@@ -98,12 +105,21 @@ public class bot {
         int question = random(responsquestion.length);
         return responsquestion[question];
     }
+
     public void exe() {
         try {
             Socket socket = new Socket(hostname, port);
+
+            //sends message to server verifying this is a bot.
+          //  DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+            //dOut.writeByte(1);
+            //dOut.writeUTF("This is a bot");
+            //dOut.flush();
+            //dOut.close();
             System.out.println("Connected to server");
 
             //start new reader and writer for each connected client
+
             new ReadThread(socket, null, this).start();
             new WriteThread(socket, null, this).start();
 
@@ -144,27 +160,36 @@ public class bot {
         return respons;
     }
 
+    public String getBotNamee() {
+        return name;
+    }
+
+    public static boolean isbot() {
+        if (setisbot() == 1) {
+            return true;
+        } else return false;
+    }
+    public static int setisbot() {
+        return 1;
+    }
+
 
     //setter and getter for username hashset
-   public  void setbotname(String botName) {
-        this.botName = botName;
-    }
-    public String getBotNamee() {
-        return this.botName;
-    }
+
 
     public static void main(String[] args) {
         //hostname and port must be used in the terminal when executing the program.
         //checks if more than 2 entries are present, if so then dont connect
         // java client hostname portnumber botname
-        if (args.length < 2) return;
+        if (args.length < 3) return;
         String hostname = args[0];
         int port = Integer.parseInt(args[1]);
-        bot.id = "bot";
+        String name = args[2];
 
         //if conditions are met, start client and connect to server with exe
-        bot bot = new bot(hostname,port);
+        bot bot = new bot(hostname,port, name, 1);
         bot.exe();
 
     }
+
 }
