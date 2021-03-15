@@ -22,9 +22,9 @@ public class client {
     public void exe() {
         try {
             Socket socket = new Socket(hostname, port);
-            System.out.println("Connected to server");
+            System.out.println("Connected to server\n");
             System.out.println("Welcome the fully automated kingdom of bots\n"+
-                    "If you need assistance simply type --help or --h\nTo exit a bye would suffice\n" +
+                    "If you need assistance simply type --help\nTo exit a bye would suffice\n" +
                     "This server has a number 'users' included so feel free to chat! they are totally real and human");
 
             //start new reader and writer for each connected client

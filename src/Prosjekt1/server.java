@@ -11,18 +11,19 @@ public class server {
     //sockets for server and client
     //this way someone can control serverside for a more personal touch if needed
     private Socket socket = null;
-    private Socket socketbot = null;
     private int port;
 
     //hashset for storing usernames
     //hashset for storing userclients
     private Set<userThread> userThreads = new HashSet<>();
-    private Set<String> userNames = new HashSet<>();
-    private Set<botThread> botThreads = new HashSet<>();
-    private Set<String> botnames = new HashSet<>();
+    private static Set<String> userNames = new HashSet<>();
 
     public server(int port) {
         this.port = port;
+    }
+
+    static boolean findname(String name) {
+        return userNames.contains(name);
     }
 
     public void exe() {
@@ -34,14 +35,9 @@ public class server {
             while (true) {
                     socket = serversocket.accept();
                     System.out.println("New user connected");
-                    userThread newuser = new userThread(socket, this,1);
+                    userThread newuser = new userThread(socket, this);
                     userThreads.add(newuser);
                     newuser.start();
-
-                    System.out.println("New bot connected");
-                    botThread newbot = new botThread(socket, this);
-                    botThreads.add(newbot);
-                    newbot.start();
             }
         } catch (IOException e) {
             System.out.println("Error in connecting user: " + e.getMessage());
@@ -75,22 +71,21 @@ public class server {
             }
         }
     }
-    void botcast(String mess, botThread notforthisuser) {
-        for (botThread bot : botThreads) {
-            if (bot != notforthisuser) {
-                bot.sendMessage(mess);
+    void foryoureyesonly(String mess, userThread forthisuser) {
+        for (userThread user : userThreads) {
+            if (user == forthisuser) {
+                user.sendMessage(mess);
             }
         }
     }
+
         //adds username to hashset
-    void addusername(String UserName) {
+        static void addusername(String UserName) {
         userNames.add(UserName);
     }
-    void addbotname(String BotName) {
-        botnames.add(BotName);
-    }
+
     //remove from hashset
-    void removeuser(String userName, userThread user, String botname, botThread bot) {
+    void removeuser(String userName, userThread user) {
         boolean removed = userNames.remove(userName);
         //easier to read
         if (userNames.remove(userName)) { // or removed == true
@@ -98,23 +93,17 @@ public class server {
             //message for server only
             System.out.println(userName + " has left the channel");
         }
-        if (botnames.remove(botname)) {
-            botThreads.remove(bot);
-            System.out.println(botname + " has been kicked");
-        }
     }
 
-    Set<String> getUserNames() {
-        return this.userNames;
+
+    static Set<String> getUserNames() {
+        return userNames;
     }
-    Set<String> getBotnames() {
-        return this.botnames;
-    }
+
 
     boolean hasUsers() {
         return !this.userNames.isEmpty();
     }
-    boolean hasBots() {
-        return !this.botnames.isEmpty();
-    }
+
+
 }
