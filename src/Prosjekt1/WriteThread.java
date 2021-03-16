@@ -37,7 +37,11 @@ public class WriteThread extends Thread{
             String userName = console.readLine("\nEnter your name: ");
             client.setusername(userName);
             writer.println(userName);
-
+        try {
+            WriteThread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
             // a loop until the user writes bye
             //then closes if line = bye

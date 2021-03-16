@@ -31,6 +31,11 @@ public class bot {
         return (random = (int) (Math.random()* arrlengde));
 
     }
+    static String mathsign() {
+        String [] mathsign = {"+","/","*","-"};
+        int sign = random(mathsign.length);
+        return mathsign[sign];
+    }
     //picks up defenition of a word from urban dictionary
     static String urbandef(String string) {
         //got this code from rapidapi urbandictionary
@@ -71,6 +76,12 @@ public class bot {
         int greeting = random(greetingarr.length);
         return  greetingarr[greeting];
     }
+    public static String botcallout() {
+        String[] whymearr = {"Why do you use my name?", "stop harrasing me", "I value that you think that high of my opinion"
+        ,"I think you should tell someone else...", "Fuck you", "Ask the guy above me"};
+        int callout = random(whymearr.length);
+        return whymearr[callout];
+    }
      public static String botname() {
         ArrayList<String> list = new ArrayList<>();
         String[] botnavn = {"Bjarne", "Urbanbot", "Knut", "Lisa", "Jensine", "Stuart", "Anna"};
@@ -82,6 +93,10 @@ public class bot {
          String temp = botnavn[navn];
          return temp;
     }
+    int setnumber(String number) {
+        return Integer.parseInt(number);
+    }
+
 
     public static boolean findbotname(String string) {
         String [] botnavn = {"Bjarne", "Knut", "Lisa", "Jensine", "Stuart", "Anna", "Urbanbot"};
@@ -91,6 +106,9 @@ public class bot {
            }
        }
        return false;
+    }
+    public static void botconvo() {
+        String reply ;
     }
 
     public static String responsnegativ() {
@@ -115,6 +133,14 @@ public class bot {
         int question = random(responsquestion.length);
         return responsquestion[question];
     }
+    public static String hobbies() {
+        String [] hobby = {"soccer","movies","starring in adult films","staring at feet","walking the parrot",
+        "riding a bike", "smelling people at the gym", "writing poems about your love for cooks"};
+        int hobbi = random(hobby.length);
+        return hobby[hobbi];
+    }
+
+
 
     public void exe() {
         try {
