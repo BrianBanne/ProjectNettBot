@@ -1,47 +1,41 @@
-hello and welcome to my bot
+hello and welcome to my chatroom
 
 You need to compile both server and client in a terminal to run this chatbot experience
 
 simply copy the file into any directory in your terminal with:
+if using linux terminal
 javac server.java
 javac client.java
 
 then to make the client and server connect to another
 java server <portnumber> //without the <>
 java client <host> <portnumber> //without the <> on both of the inputs
+java bot <localhost> <portnumber> <botname>
+
+List of available bots are: Bjarne, Urbanbot, Knut, Lisa, Jensine, Anna, Alice
 
 you need to do it in this order, or else the client wont have a server to connect to.
 portnumber and host are not set to a specific value, but i would recommend
 <localhost> for host and <5000> for portnumber. Remember the portnumber needs to be the same in each execution.
 
 Any number of clients can connect.
+Please use the reffered names for the bots. upper or lowercase doesnt matter.
 
+--help for list of things you can do
 
-TODO/////////
+my bots are stupid so please forgive them.
+Actions like kicking requires a "-"
+When initiating a conversation dont get weirded out by their skills.
+They will just say random things out of order until they detect no more triggers
 
-done-- Må enten klare å skille ut bottene fra brukere eller komme på en ny løsning.
-done-- Bottene er nå det samme som en vanlig bruker.
+Due to the nature of the server, it will remain up until closed by admin.
+So you can disconnect all users and still reconnect with others.
+Ctrl+c for servershutdown.
 
-done-- Kan være å bare la de være i samme hashset, og endre på noen metoder. men vi får se ann.
-done-- funker enn så lenge uansett hvor janky det er
+The goal of this program was not for showcasing my botmaking skills, but rather networking.
 
-done--vil finne en måte å la hver bot få et unikt navn.
-done-- Kanskje la brukeren bestemme.
+And also dont try the Urbanbot more than 500 times, then i have to pay some API website.
 
-Fullfør botsamtaler
-
-Ser ut til at jeg må vite hva som leser og hva som sender medlinger, se på userthread
-på hvordan det skal gjøres, ser ut til at bottene må fortsette å være på normal write og read
-men legge inn sin egen lille cheeky kode i userthread, litt usikker på hvordan det skal gå
-når det er en tråd for hver enkelt bruker. Må finne noe som leser hva brukeren har sagt.
-Det kan være den cast meldingen, hvis den er = "blabla" så må botten svare med heiehi osv
-
-
-Hvordan få en bot til å sende melding
-Hvordan få cast til å fungere på bottene også
-
-//halvveis ferdig med denne
-ikke bruk for mye tid på hva brukeren sier.
 
 
 

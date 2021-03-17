@@ -7,9 +7,6 @@ import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 //will make bot its own client
 public class bot {
@@ -70,7 +67,6 @@ public class bot {
         return null;
     }
     // a bunch of methods for getting name and sentence structures.
-
     public static String botgreeting() {
         String [] greetingarr = {"Hi!", "Hello there :)", "Heya", "Hi, how are you?"};
         int greeting = random(greetingarr.length);
@@ -78,35 +74,12 @@ public class bot {
     }
     public static String botcallout() {
         String[] whymearr = {"Why do you use my name?", "stop harrasing me", "I value that you think that high of my opinion"
-        ,"I think you should tell someone else...", "Fuck you", "Ask the guy above me"};
+        ,"I think you should tell some other guy", "Fuck you", "Ask the guy above me"};
         int callout = random(whymearr.length);
         return whymearr[callout];
     }
-     public static String botname() {
-        ArrayList<String> list = new ArrayList<>();
-        String[] botnavn = {"Bjarne", "Urbanbot", "Knut", "Lisa", "Jensine", "Stuart", "Anna"};
-        for (int i = 0; i < botnavn.length; i++) {
-            list.add(botnavn[i]);
-        }
-         Collections.shuffle(list);
-         int navn = random(botnavn.length);
-         String temp = botnavn[navn];
-         return temp;
-    }
-    int setnumber(String number) {
-        return Integer.parseInt(number);
-    }
 
 
-    public static boolean findbotname(String string) {
-        String [] botnavn = {"Bjarne", "Knut", "Lisa", "Jensine", "Stuart", "Anna", "Urbanbot"};
-       for (int i = 0; i < botnavn.length; i++) {
-           if (string.equals(botnavn[i])) {
-               return true;
-           }
-       }
-       return false;
-    }
     public static void botconvo() {
         String reply ;
     }
@@ -128,7 +101,7 @@ public class bot {
     }
 
     public static String responsquestion() {
-        String [] responsquestion = {"what will you do now?", "why would you do that?", "why would you invite that person?", "when should we do that?",
+        String [] responsquestion = {"what will you do at this moment?", "why would you do that?", "why would you invite that person?", "when should we do that?",
                 "where do you suggest to do it?", "why are you looking at me like that?"};
         int question = random(responsquestion.length);
         return responsquestion[question];
@@ -139,6 +112,49 @@ public class bot {
         int hobbi = random(hobby.length);
         return hobby[hobbi];
     }
+    public static String yesmen() {
+        String [] yes = {"I totally agree", "What an honest answer", "I just shit my pants", "can you scream it", "Told you so...", "fucking great",
+        "can you promise that?", "thats right!!!", ""};
+        int yesguys = random(yes.length);
+        return yes[yesguys];
+    }
+    public static String topics() {
+        String [] subject = {"movies", "books", "the art of not giving a fuck", "Ninja turtles","Water", "the cheese cheddar", "Daft Punks breakup"};
+        int sub = random(subject.length);
+        return  subject[sub];
+    }
+    public static String topsentence(){
+        String [] top = {"I want to talk about ", "Do you like ", "Hey, want to hear more about ", "Please switch subject to "};
+        int topic = random(top.length);
+        return top[topic];
+    }
+    public static String movies() {
+        String [] mov = {"Transformers", "Star Wars","A Serbian Film", "Transporter", "Pixar movies"};
+        int movieint = random(mov.length);
+        return mov[movieint];
+    }
+    public static String topicanswer() {
+        String [] answer = {"Ohhh I love that", "It's so sad that you like that", "would give up my tits to meet the creators", "Absolutely we can talk about that","We should have a deep discussion about your preferences",
+        "Lets do it", "Fuck yeah i love that suggestion", "What is your opinion?", "Lets shit our pants!!!", "I think i love you",
+        "I feel strongly about that", "Can someone give me a papertowel?", "I don't want to talk about that, change the subject"};
+        int answ = random(answer.length);
+        return answer[answ];
+    }
+    public static String favorite() {
+        String [] fav = {"My favorite thing is bears", " I don't like that at all", "I am an avid enjoyer aswell", "you look like someone who likes that",
+        "I don't want to hear about it", "I love movies", "Why???", "cool story bro", "What makes you like that?", responsquestion(), responspositiv(), "Glad to hear it"};
+        int favo = random(fav.length);
+        return fav[favo];
+    }
+    public static String nomen() {
+        String [] no = {"Wow, you couldn't be more wrong", "right....", "lets ask some other person", "you actually mean that?", "really?",
+        "I dont agree with the person above", "I want to talk about something else", "You looking for a fight?",
+        "shut up guy person", "you should go skydiving without a parachute", "I'm quite never ready for that", "Wowwww, yUorE sO brAvE",
+        "I insist on you doing that"};
+        int noguys = random(no.length);
+        return no[noguys];
+    }
+
 
 
 
@@ -149,13 +165,8 @@ public class bot {
             System.out.println("\nConnected to server :D");
             setBotName(name);
             //start new special writer and reader for bots
-            new botReadThread(socket, null, this).start();
-            new botWriteThread(socket, null, this).start();
-/*
-            new ReadThread(socket, null, this).start();
-            new WriteThread(socket, null, this).start();
+            new botReadThread(socket, this).start();
 
- */
             //catches not finding host and any I/O errors.
         }catch (UnknownHostException i) {
             System.out.println("Server not found: " + i.getMessage());
@@ -164,36 +175,6 @@ public class bot {
         }
 
     }
-
-        //Stringbuilder for makeing short and long strings with preset content
-    static StringBuilder botinnhold() {
-        //random generator that hits me with either 0 or 1
-        Random ran = new Random();
-        int n = ran.nextInt(2);
-
-        StringBuilder respons = new StringBuilder();
-/*
-        if (n == 0) {
-            respons.append(detailnegative+", ");
-            respons.append(question);
-
-            //dont need this now, but will leave it for posterity
-            if (detailnegative != responsadjektivnegativ[1]) {
-                //respons.append(" ");
-            }
-        }
-        else {
-            respons.append(detailpositive+ ". ");
-            respons.append(question.substring(0,1).toUpperCase() + question.substring(1));
-        }
-        respons.toString();
-        return respons;
-
- */
-        return respons;
-    }
-
-
 
     //setter and getter for username hashset
     void setBotName(String username) {
@@ -219,13 +200,6 @@ public class bot {
         //if conditions are met, start client and connect to server with exe
         bot bot = new bot(hostname,port, name);
         bot.exe();
-       // addusername(name);
 
-    }
-    static void sendsignal(boolean signal) {
-        if (signal == true) {
-            bot urbanbot = new bot("localhost", 9090, "UrbanBot");
-            urbanbot.exe();
-        }
     }
 }

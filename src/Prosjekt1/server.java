@@ -1,6 +1,6 @@
 package Prosjekt1;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
@@ -12,6 +12,7 @@ public class server {
     //this way someone can control serverside for a more personal touch if needed
     private Socket socket = null;
     private int port;
+    private boolean close;
 
     //hashset for storing usernames
     //hashset for storing userclients
@@ -25,13 +26,16 @@ public class server {
     static boolean findname(String name) {
         return userNames.contains(name);
     }
+    void shutdown() throws IOException {
+        if (!socket.isClosed()) {
+            socket.close();
+        }
+    }
 
-    public void exe() {
+    public void exe() throws IOException {
         try (ServerSocket serversocket = new ServerSocket(port)) {
             System.out.println("Searching for connections on port: " + port);
-
             //always listening
-            //something needs to change here
             while (true) {
                     socket = serversocket.accept();
                     System.out.println("New user connected");
@@ -42,6 +46,8 @@ public class server {
         } catch (IOException e) {
             System.out.println("Error in connecting user: " + e.getMessage());
             e.printStackTrace();
+            //if error, shutdown socket
+            shutdown();
         }
     }
 
@@ -60,7 +66,7 @@ public class server {
         } else {
             server server = new server(port);
             server.exe();
-            // server.botexe();
+
         }
     }
 

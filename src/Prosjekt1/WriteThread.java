@@ -1,6 +1,9 @@
 package Prosjekt1;
 
-import java.io.*;
+import java.io.Console;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 //reading userinput and sending it to the server
@@ -11,8 +14,7 @@ public class WriteThread extends Thread{
     private Socket socket;
     private client client;
     private bot bot;
-    private DataOutputStream out;
-    private InputStream input;
+
 
 
     //constructor
@@ -38,25 +40,27 @@ public class WriteThread extends Thread{
             client.setusername(userName);
             writer.println(userName);
         try {
-            WriteThread.sleep(500);
+            WriteThread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
             // a loop until the user writes bye
             //then closes if line = bye
             String line;
             do {
                 line = console.readLine("[" + userName + "]: ");
                 if (line.equals("--help")) {
-                    System.out.println("List of commands are:\nprinthash - prints all users\n" +
-                            "activate urbanbot - unleashes the beast\n-exit - let the bot sleep\nbye - leave the channel");
+                    System.out.println("List of commands are:\n-printusers - prints all users\n" +
+                            "-AB2.0 - unleashes the beast\n-exit - let the beast sleep\n-leaveall - disconnects all bots\nlets talk - initiates a random conversation with the bots" +
+                            "\nbye - leave the channel\n-find - finds users if he/she is present\n-activate Urbanbot1.0 - the actual bot version of urbanbot\n-suggestion + what you suggest to do\n" +
+                            "-rps - play rock, paper or scissors vs my RPS bot");
                 }
                 writer.println(line);
+
             } while (!line.equals("bye"));
             try {
-                //closes connection
-                writer.close();
+                //does not need to close out and inputstream
+                //socket.close does that for me in java
                 socket.close();
             } catch (IOException e) {
                 System.out.println("Error writing to server: " + e.getMessage());
