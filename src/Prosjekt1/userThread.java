@@ -19,7 +19,7 @@ public class userThread extends Thread {
     }
 
     public void run() {
-            try {
+            try  {
                 //inputstream to read from the stream
                 InputStream input = socket.getInputStream();
                 //buffreader for reading from client
@@ -71,7 +71,7 @@ public class userThread extends Thread {
                             return;
                         }
                        int word =  bot.random(2);
-                        String reply = "";
+                        String reply;
                         if (word == 0) {
                             reply = "paper";
                         } else if (word==1) {
@@ -90,28 +90,26 @@ public class userThread extends Thread {
                         }
 
                     }
+                    //print connected users
                     if (clientMessage.equals("-printusers")) {
                         printUsers();
                     }
-                    if (clientMessage.contains("-suggestion")) {
-                        String lastWord = clientMessage.replaceAll("^.*?(\\w+)\\W*$", "$1");
-                        server.cast(lastWord, this);
-                    }
-                    //find Alice, but only if Alice is connected
+                    //find bot, but only if connected
                     if (clientMessage.equals("-find")) {
                         server.foryoureyesonly("Who do you want to find? (I am case sensitive)",this);
                         clientMessage = reader.readLine();
                         boolean name = server.findname(clientMessage);
                         if (name) {
-                            server.foryoureyesonly("["+clientMessage+"]: I'm here",this);
+                            server.foryoureyesonly("["+clientMessage+"]: I'm here :)",this);
                         } else {
                             server.foryoureyesonly("Sorry, "+clientMessage+" is not here",this);
                         }
                     }
+
                     //send if null either way, seem to remember i need this one
-                    else if (clientMessage.equals(null)){
+                    else if (clientMessage.isBlank()){
                         //send message but not if blank
-                        System.out.println("message "+clientMessage+ " is null");
+                        System.out.println("message "+clientMessage+ " is blank");
                     } else {
                         serverMessage = "[" + userName + "]: " + clientMessage;
                         server.cast(serverMessage, this);

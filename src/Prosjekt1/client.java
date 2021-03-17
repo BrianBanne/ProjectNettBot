@@ -26,8 +26,8 @@ public class client {
                     "This server has a number 'users' included so feel free to chat! they are totally real and human");
 
             //start new reader and writer for each connected client
-            new ReadThread(socket, this, null).start();
-            new WriteThread(socket, this, null).start();
+            new ReadThread(socket, this).start();
+            new WriteThread(socket, this).start();
 
             //catches not finding host and any I/O errors.
         } catch (UnknownHostException i) {
@@ -51,7 +51,6 @@ public static void main (String [] args) throws IOException {
     if (args.length < 2) return;
     String hostname = args[0];
     int port = Integer.parseInt(args[1]);
-
 
     //if conditions are met, start client and connect to server with exe
     client client = new client(hostname,port);

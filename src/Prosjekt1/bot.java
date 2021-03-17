@@ -24,8 +24,7 @@ public class bot {
     }
 
     static int random(int arrlengde) {
-        int random;
-        return (random = (int) (Math.random()* arrlengde));
+        return (int) (Math.random()* arrlengde);
 
     }
     static String mathsign() {
@@ -73,15 +72,10 @@ public class bot {
         return  greetingarr[greeting];
     }
     public static String botcallout() {
-        String[] whymearr = {"Why do you use my name?", "stop harrasing me", "I value that you think that high of my opinion"
-        ,"I think you should tell some other guy", "Fuck you", "Ask the guy above me"};
+        String[] whymearr = {"Why do you use my name?", "stop harassing me", "I value that you think that high of my opinion"
+        ,"I think you should tell some other guy", "Fuck you", "Ask not me"};
         int callout = random(whymearr.length);
         return whymearr[callout];
-    }
-
-
-    public static void botconvo() {
-        String reply ;
     }
 
     public static String responsnegativ() {
@@ -193,10 +187,6 @@ public class bot {
         int port = Integer.parseInt(args[1]);
         String name = args[2];
 
-        //maybe not needing this. let see
-        if (name.toString().equalsIgnoreCase("Alice") || name.toString().equalsIgnoreCase("Knut")) {
-            System.out.println("hi");
-        }
         //if conditions are met, start client and connect to server with exe
         bot bot = new bot(hostname,port, name);
         bot.exe();

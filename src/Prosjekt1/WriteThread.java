@@ -13,15 +13,13 @@ public class WriteThread extends Thread{
     private PrintWriter writer;
     private Socket socket;
     private client client;
-    private bot bot;
 
 
 
     //constructor
-    public WriteThread(Socket socket, client client, bot bot) {
+    public WriteThread(Socket socket, client client) {
         this.socket = socket;
         this.client = client;
-        this.bot = bot;
     }
 
     public void run() {
@@ -52,7 +50,7 @@ public class WriteThread extends Thread{
                 if (line.equals("--help")) {
                     System.out.println("List of commands are:\n-printusers - prints all users\n" +
                             "-AB2.0 - unleashes the beast\n-exit - let the beast sleep\n-leaveall - disconnects all bots\nlets talk - initiates a random conversation with the bots" +
-                            "\nbye - leave the channel\n-find - finds users if he/she is present\n-activate Urbanbot1.0 - the actual bot version of urbanbot\n-suggestion + what you suggest to do\n" +
+                            "\nbye - leave the channel\n-find - finds users if he/she is present\n-AB1.0 - the actual bot version of urbanbot\n-suggestion + what you suggest to do\n" +
                             "-rps - play rock, paper or scissors vs my RPS bot");
                 }
                 writer.println(line);

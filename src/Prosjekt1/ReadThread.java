@@ -11,14 +11,14 @@ public class ReadThread extends Thread {
     private BufferedReader reader;
     private Socket socket;
     private client client;
-    private bot bot;
+
 
 
     //constructor
-    public ReadThread(Socket socket, client client, bot bot) {
+    public ReadThread(Socket socket, client client) {
         this.socket = socket;
         this.client = client;
-        this.bot = bot;
+
         try {
             InputStream input = socket.getInputStream();
             reader = new BufferedReader(new InputStreamReader(input));

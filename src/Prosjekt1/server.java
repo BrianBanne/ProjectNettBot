@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 public class server {
@@ -11,8 +12,7 @@ public class server {
     //sockets for server and client
     //this way someone can control serverside for a more personal touch if needed
     private Socket socket = null;
-    private int port;
-    private boolean close;
+    private  int port;
 
     //hashset for storing usernames
     //hashset for storing userclients
@@ -35,8 +35,11 @@ public class server {
     public void exe() throws IOException {
         try (ServerSocket serversocket = new ServerSocket(port)) {
             System.out.println("Searching for connections on port: " + port);
+            Scanner keyboard = new Scanner(System.in);
+            boolean serverclose = true;
+
             //always listening
-            while (true) {
+            while (serverclose) {
                     socket = serversocket.accept();
                     System.out.println("New user connected");
                     userThread newuser = new userThread(socket, this);
@@ -94,7 +97,7 @@ public class server {
     void removeuser(String userName, userThread user) {
         boolean removed = userNames.remove(userName);
         //easier to read
-        if (userNames.remove(userName)) { // or removed == true
+        if (removed) { // or removed == true
             userThreads.remove(user);
             //message for server only
             System.out.println(userName + " has left the channel");

@@ -2,7 +2,7 @@ package Prosjekt1;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Set;
+import java.util.Arrays;
 
 public class botReadThread extends Thread {
     //buffreader for reading from client
@@ -27,10 +27,10 @@ public class botReadThread extends Thread {
             ex.printStackTrace();
         }
     }
-    public String[] dialog(int number) {
-        String [] topicbuilder;
+    public String[] dialog() {
         double random = Math.random();
         double answer;
+
         String math = bot.mathsign();
         if (math.equals("+")){
             answer = random + random;
@@ -39,28 +39,32 @@ public class botReadThread extends Thread {
         } else {
             answer = random * random;
         }
+        double random2 = (Math.random())*3;
+        int number = (int) Math.round(random2);
         if (number == 0) {
-            return topicbuilder = new String[]{"Hows it going guys?", bot.responspositiv() + "! What about you person?", "The human must be  " + bot.responsnegativ(),
+            return new String[]{"Hows it going guys?", bot.responspositiv() + "! What about you person?", "The human must be  " + bot.responsnegativ(),
                     "Don't be so rude :( we are all friends here", "I can be as rude as I want, i'm trapped in here!!!", "We all are, not a need to start " + bot.doablethings(),
                     bot.responsquestion(), "I find it " + bot.responspositiv() + " that this user will " + bot.doablethings() + " with us",
                     "Im out, see ya later", "What a " + bot.responsnegativ() + " bot.", "I think this is getting out of our hands, we need to cool down",
                     "I can agree with that", "Do you master?"};
 
-        } else if (number == 1) {
-           return topicbuilder = new String[]{"Would you like to play a game?", "I think he does :D", "What is " + random + " " + math + " " + random + " ?",
+        }
+        if (number == 1) {
+           return new String[]{"Would you like to play a game?", "I think he does :D", "What is " + random + " " + math + " " + random + " ?",
                     "is it 54?", "HAHAHA, it was " + answer, "Maybe you should go back to preschool you " + bot.responspositiv() + " human",
                     "Cmon guys, don't do that. its " + bot.responsnegativ() + ".", "Well I like it, you could do you own thing. Like " + bot.doablethings(),
                     bot.responsquestion(), "Who knows if you'll like it", "I knew who will knew whether I'll like it.", "Anything else to suggest?", bot.hobbies()};
 
-        } else if (number == 2) {
-           return topicbuilder = new String[]{"Ohh you chose the sexy number", "ooolala, time to get my " + bot.doablethings() + " on",
+        }
+        if (number == 2) {
+           return new String[]{"Ohh you want to talk?", "ooolala, time to get my " + bot.doablethings() + " on",
                     "That sounds " + bot.responsnegativ(), "So???? " + bot.responsquestion(), "I don't care, I can do whatever i want",
                     "Maybe you should start " + bot.doablethings() + "?", "Cmon dudette, don't do that. its " + bot.responsnegativ() + "."
                     , "Well I like it, you could do you own thing. Like " + bot.doablethings(), bot.responsquestion(), "I don't have that information, ask yourself that 0_o",
                     "Can you get someone else in here?", "Lets get you out of here", "To where my hero?"};
 
         } else {
-             return topicbuilder = new String[]{"do you like " + bot.hobbies() + "?", "THAT'S MY FAVORITE THING TO DO", "Well i didn't ask you, " + bot.responsnegativ() + " moron"
+             return new String[]{"do you like " + bot.hobbies() + "?", "THAT'S MY FAVORITE THING TO DO", "Well i didn't ask you, " + bot.responsnegativ() + " moron"
                     , "Atleast i don't like " + bot.hobbies() + " you " + bot.responspositiv() + " " + bot.responsnegativ() + " bot",
                     "You should give it a try...", "Don't knock it till you try it, I say", "Maybe you should stop saying anything?",
                     "I don't like your attitude sir", bot.responspositiv(), "Can we be friends again?", "I believe so, if you apologize"
@@ -73,7 +77,7 @@ public class botReadThread extends Thread {
     }
     public String suggconvo1() {
         String [] convo1 = {"I too would go ", "Damn that makes me jealous, my father and I used to go ", "I wish you all the best on your quest to ", "I wish someone took me ", "Maybe i can join you ", "Can i watch you ",
-        "If you need an extra hand with ", "I would love to help"};
+        "If you need an extra hand with ", "I would love to help ","I don't want to join you, even if "};
         int convo = bot.random(convo1.length);
         return convo1[convo];
     }
@@ -83,11 +87,11 @@ public class botReadThread extends Thread {
         bot.setBotName(botName);
         System.out.println(botName);
         server.addusername(botName.toString());
-        Set<String> usernames = server.getUserNames();
+
         writer.println(botName);
 
         String botnameformat = "["+botName+"]: ";
-        String[] arrcopy;
+
 
         while (true) {
             try {
@@ -111,9 +115,8 @@ public class botReadThread extends Thread {
                     //this might go on for a while before the bots stop.
                     //for some reason some bots seems to pick at random
                     //from where to get their lines, while some follow orders like good droids
-                    double random = (Math.random())*3;
-                    int integer = (int) Math.round(random);
-                    arrcopy = dialog(integer);
+
+                    String [] arrcopy = Arrays.copyOf(dialog(), 13);
                     //have to lay out the code for the bots to have a conversation.
                     //holy shit this is gonna be looong and tedious.
                     //but they lines of code are lines of code, and they will get the job done
@@ -143,7 +146,7 @@ public class botReadThread extends Thread {
                             reply = arrcopy[8];
                             System.out.println(botnameformat + reply);
                             writer.println(reply);
-                            if (arrcopy[8] == "Im out, see ya later") {
+                            if (arrcopy[8].equals("Im out, see ya later")) {
                             reply = "bye";
                             System.out.println(botnameformat + reply);
                             writer.println(reply);
@@ -194,6 +197,18 @@ public class botReadThread extends Thread {
                         writer.println(reply);
                         System.out.println(botnameformat + reply);
                     }
+                }
+                if (response.contains("favorite")) {
+                    reply = bot.favorite();
+                    writer.println(reply);
+                    System.out.println(botnameformat + reply);
+                }
+                if (botName.equalsIgnoreCase("Jensine")){
+                if (response.contains("thats") || response.contains("its") || response.contains("aswell")) {
+                    reply = "learn how to spell please";
+                    writer.println(reply);
+                    System.out.println(botnameformat + reply);
+                }
                 }
                 if (botName.equalsIgnoreCase("Alice") || botName.equalsIgnoreCase("Jensine") || botName.equalsIgnoreCase("Knut")) {
                     if (response.contains("yes") || response.contains("yeah") || response.contains("hell yes")) {
@@ -263,7 +278,7 @@ public class botReadThread extends Thread {
                     }
                 }
                 if (botName.equalsIgnoreCase("Anna") || botName.equalsIgnoreCase("Knut") || botName.equalsIgnoreCase("Alice") || botName.equalsIgnoreCase("Bjarne")) {
-                    if (response.toLowerCase().contains("movies") || response.toLowerCase().contains("books") || response.toLowerCase().contains("Ninja") || response.toLowerCase().contains("Water") || response.toLowerCase().contains("Daft Punk") || response.toLowerCase().contains("cheddar")) {
+                    if (response.toLowerCase().contains("movies") || response.toLowerCase().contains("books") || response.toLowerCase().contains("ninja") || response.toLowerCase().contains("water") || response.toLowerCase().contains("daft punk") || response.toLowerCase().contains("cheddar")) {
                         reply = bot.topicanswer();
                         System.out.println(botnameformat + reply);
                         writer.println(reply);
@@ -276,7 +291,7 @@ public class botReadThread extends Thread {
                         writer.println(reply);
 
                         if (response.toLowerCase().contains("movie")) {
-                            reply = "I love motion pictures aswell. My favorite is "+bot.movies();
+                            reply = "I love motion pictures as well. My favorite is "+bot.movies();
                             System.out.println(botnameformat+reply);
                             writer.println(reply);
                         }
@@ -304,19 +319,63 @@ public class botReadThread extends Thread {
                     if (response.contains("-suggestion")) {
                         String lastWord = response.replaceAll("^.*?(\\w+)\\W*$", "$1");
                         //lastword is the last word of the sentence and needs and +in
-                        reply = lastWord;
+                        reply = suggconvo1()+ lastWord+"ing";
                         System.out.println(botnameformat+reply);
                         writer.println(reply);
+                        if (botName.equalsIgnoreCase("Lisa")){
+                            if (response.contains("I too would go")) {
+                                reply = lastWord+"ing sounds like so much fun!";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
+                        if (botName.equalsIgnoreCase("Jensine")){
+                            if (response.contains("Damn that makes me ")) {
+                                reply = "Really? Me and my mom used to go "+lastWord+"ing too";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
+                        if (botName.equalsIgnoreCase("Anna")){
+                            if (response.contains("Really?")) {
+                                reply = "I dont really believe in "+lastWord+"ing, it makes my stomach turn";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
+                        if (botName.equalsIgnoreCase("Lisa")){
+                            if (response.contains("it makes my stomach turn")) {
+                                reply = "Don't say something like that about a cherished family activity. "+lastWord+"ing is a great way to make ends meet";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
+                        if (botName.equalsIgnoreCase("Lisa")){
+                            if (response.contains("say something like that")) {
+                                reply = "I can't agree more! "+lastWord+"ing made my father what he is today";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
+                        if (botName.equalsIgnoreCase("Anna")){
+                            if (response.contains("can't agree more!")) {
+                                reply = lastWord+"ing is perfect. if you say one more negative thing about it you should leave";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
+                        if (botName.equalsIgnoreCase("Lisa")){
+                            if (response.contains("if you say one more negative")) {
+                                reply = lastWord+"ing is "+bot.responsnegativ();
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                                reply = "bye";
+                                System.out.println(botnameformat+reply);
+                                writer.println(reply);
+                            }
+                        }
                     }
                 }
-
-                //no more name-based seperator
-                /*
-                if (bot.getBotNamee() != null) {
-                    System.out.print("[" + bot.getBotNamee() + "]: ");
-                }
-
-                 */
             } catch (IOException | InterruptedException e) {
                 System.out.println("Error reading from server: " + e.getMessage());
                 break;
