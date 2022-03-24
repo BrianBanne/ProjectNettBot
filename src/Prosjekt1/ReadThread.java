@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.lang.Thread;
 
 public class ReadThread extends Thread {
     //buffreader for reading from the stream

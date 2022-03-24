@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.lang.Thread;
 
 //will make bot its own client
 public class bot {

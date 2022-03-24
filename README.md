@@ -5,7 +5,7 @@ Locally hosted chattingprogram in the terminal -- with bots if you'd like --
 hello and welcome to my chatroom
 
 You need to compile both server and client in a terminal to run this chatbot experience
-
+this is all wrong, forgot to update readme
 simply copy the file into any directory in your terminal with:
 and run with: (if using a linux terminal
 javac server.java

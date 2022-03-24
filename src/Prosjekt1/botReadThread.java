@@ -3,6 +3,7 @@ package Prosjekt1;
 import java.io.*;
 import java.net.Socket;
 import java.util.Arrays;
+import java.lang.Thread;
 
 public class botReadThread extends Thread {
     //buffreader for reading from client

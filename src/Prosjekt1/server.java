@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.lang.Thread;
+
 
 public class server {
 
@@ -16,8 +18,8 @@ public class server {
 
     //hashset for storing usernames
     //hashset for storing userclients
-    private Set<userThread> userThreads = new HashSet<>();
-    private static Set<String> userNames = new HashSet<>();
+    private final Set <UserThread> userThreads = new HashSet<>();
+    private static final Set <String> userNames = new HashSet<>();
 
     public server(int port) {
         this.port = port;
@@ -42,7 +44,7 @@ public class server {
             while (serverclose) {
                     socket = serversocket.accept();
                     System.out.println("New user connected");
-                    userThread newuser = new userThread(socket, this);
+                    UserThread newuser = new UserThread(socket, this);
                     userThreads.add(newuser);
                     newuser.start();
             }
@@ -58,12 +60,16 @@ public class server {
         //port must be used in the terminal when executing the program.
         //java server portnumber
         // if more than 1 entry fail and exit
+        /*
         if (args.length < 1) {
             System.out.println("Syntax: java ChatServer <port-number>");
             System.exit(0);
         }
+
+         */
         //sets port to userinput and starts server
-        int port = Integer.parseInt(args[0]);
+       // int port = Integer.parseInt(args[0]);
+        int port = 8080;
         if (port < 0) {
             System.out.println("Port must be greater than 0");
         } else {
@@ -73,15 +79,15 @@ public class server {
         }
     }
 
-    void cast(String mess, userThread notforthisuser) {
-        for (userThread user : userThreads) {
+    void cast(String mess, UserThread notforthisuser) {
+        for (UserThread user : userThreads) {
             if (user != notforthisuser) {
                 user.sendMessage(mess);
             }
         }
     }
-    void foryoureyesonly(String mess, userThread forthisuser) {
-        for (userThread user : userThreads) {
+    void foryoureyesonly(String mess, UserThread forthisuser) {
+        for (UserThread user : userThreads) {
             if (user == forthisuser) {
                 user.sendMessage(mess);
             }
@@ -94,7 +100,7 @@ public class server {
     }
 
     //remove from hashset
-    void removeuser(String userName, userThread user) {
+    void removeuser(String userName, UserThread user) {
         boolean removed = userNames.remove(userName);
         //easier to read
         if (removed) { // or removed == true

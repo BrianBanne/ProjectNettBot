@@ -2,14 +2,16 @@ package Prosjekt1;
 
 import java.io.*;
 import java.net.Socket;
+import java.lang.Thread;
 
-public class userThread extends Thread {
+
+public class UserThread extends Thread {
     private Socket socket;
     private server server;
     private PrintWriter writer;
     public static String clientMessage;
 
-    public userThread(Socket socket, server server) {
+    public UserThread(Socket socket, server server) {
         this.socket = socket;
         this.server = server;
     }

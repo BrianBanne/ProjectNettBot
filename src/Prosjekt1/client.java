@@ -3,6 +3,8 @@ package Prosjekt1;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.lang.Thread;
+
 //class for client to connect to server
 public class client {
     private String hostname;
@@ -48,12 +50,18 @@ public static void main (String [] args) throws IOException {
         //hostname and port must be used in the terminal when executing the program.
         //checks if more than 2 entries are present, if so then dont connect
         // java client hostname portnumber
+    /*
     if (args.length < 2) return;
     String hostname = args[0];
     int port = Integer.parseInt(args[1]);
 
+     */
+
+    String hostname = "";
+    int port = 8080;
+
     //if conditions are met, start client and connect to server with exe
-    client client = new client(hostname,port);
+    client client = new client(hostname, port);
     client.exe();
 
 }
